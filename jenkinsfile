@@ -16,11 +16,12 @@ pipeline {
         stage('Login') {
             
                 script {
-                    withCredentials([usernamePassword(credentialsID: 'sarithaladella-dockerhub', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKER_USERNAME')])
+                    withCredentials([usernamePassword(credentialsID: 'sarithaladella-dockerhub', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]){
                     //Login
                         sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
                     //push
                         sh 'docker push sarithaladella/docker'
+                }
             }
         }
       }
