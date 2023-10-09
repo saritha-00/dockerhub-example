@@ -1,32 +1,33 @@
 pipeline {
-    agent any 
+    agent any
     
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
-                }
             }
-        stage('Build') {
-            steps{
+        }
+
+        stage('Build Docker Image') {
+            steps {
                 script {
-                sh 'docker build -t sarithaladella/docker .'
-                
-        
-        stage('Login') {
-            
+                    // Build the Docker image
+                    sh 'docker build -t sarithaladella/job .'
+
+                       stage('Push to Docker Hub') {
                 script {
-                    withCredentials([usernamePassword(credentialsID: 'key', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]){
-                    //Login
-                        sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
-                    //push
-                        sh 'docker push sarithaladella/docker'
+                    withCredentials([usernamePassword(credentialsId: 'key', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
+                        // Login to Docker Hub
+                         sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
+
+                        // Push the Docker image to Docker Hub
+                        sh 'docker push sarithaladella/job'
                 }
             }
         }
-      }
-   }
-}
-}
-}
+                    }
+                }
+            }
+        }
+    }
 
