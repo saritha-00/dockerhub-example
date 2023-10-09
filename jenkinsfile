@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t sarithaladella/doc-img:V1 .'
+                sh 'sudo docker build -t sarithaladella/doc-img:V1 .'
 
             }
         }
