@@ -1,21 +1,25 @@
 pipeline {
-    agent any {
-
-    }
-    environment {
-        DOCKERHUB_CREDENTIALS = sarithaladella-dockerhub
-
-    }
+    agent any 
+    
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                }
+            }
         stage('Build') {
             steps {
+                script {
                 sh 'sudo docker build -t sarithaladella/doc-img:V1 .'
-
+                }
             }
         }
         stage('Login') {
             steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                script {
+                    withCredentials([usernamePassword(credentialsID: 'sarithaladella-dockerhub', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKER_USERNAME')])
+                    //Login
+                        sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
             }
         }
         stage('Push') {
