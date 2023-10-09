@@ -3,7 +3,7 @@ pipeline {
 
     }
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('sarithaladella-dockerhub')
+        DOCKERHUB_CREDENTIALS = sarithaladella-dockerhub
 
     }
     stages {
@@ -24,9 +24,5 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            sh 'docker logout'
-        }
-    }
+   
 }
