@@ -1,0 +1,32 @@
+pipeline {
+    agent any {
+
+    }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('sarithaladella-dockerhub')
+
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'docker build -t sarithaladella/doc-img:V1 .'
+
+            }
+        }
+        stage('Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('Push') {
+            steps {
+                sh 'docker push sarithaladella/doc-img:V1'
+            }
+        }
+    }
+    post {
+        always {
+            sh 'docker logout'
+        }
+    }
+}
