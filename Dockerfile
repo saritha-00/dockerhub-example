@@ -1,1 +1,5 @@
-FROM alpine:3.13.5
+FROM ubuntu
+
+RUN apt-get update
+
+CMD [ "echo", "My docker file" ]
