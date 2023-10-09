@@ -10,7 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                sh 'sudo docker build -t sarithaladella/doc-img:V1 .'
+                sh 'sudo docker build -t sarithaladella/docker .'
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Push') {
             steps {
-                sh 'docker push sarithaladella/doc-img:V1'
+                sh 'docker push sarithaladella/docker'
             }
         }
     }
